@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Ciber">
-    <title>Fast-coder by Ciber</title>
-    <link href="{{ vite_asset('/js/app.css') }}" rel="stylesheet">
+    <title>CodeHelpers by Ciber</title>
+    <link href="<?php echo e(vite_asset('/js/app.css')); ?>" rel="stylesheet">
 
     <meta name="theme-color" content="#424345">
 </head>
@@ -17,7 +17,7 @@
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Fast Coder Snippets</a>
+            <a class="navbar-brand" href="#">CodeHelpers</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -31,7 +31,7 @@
 <!-- Begin page content -->
 <main class="flex-shrink-0 mt-4 pt-5">
     <div class="container-fluid">
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </div>
 </main>
 
@@ -40,7 +40,8 @@
         <span class="text-white">Created by Ciber. 2023</span>
     </div>
 </footer>
-<script src="{{ vite_asset('/js/app.js') }}"></script>
+<script src="<?php echo e(vite_asset('/js/app.js')); ?>"></script>
 
 </body>
 </html>
+<?php /**PATH /home/kreets/develop/codehelpers/resources/views/base.blade.php ENDPATH**/ ?>

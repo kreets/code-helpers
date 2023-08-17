@@ -29,8 +29,7 @@
                 if (this.$store.state.searchQuery) {
                     const query = this.$store.state.searchQuery.toLowerCase();
                     return this.snippets.filter(snippet =>
-                        snippet.name.toLowerCase().includes(query) ||
-                        snippet.snippet.toLowerCase().includes(query)
+                        snippet.name.toLowerCase().includes(query) || this.checkSnippetRaws(snippet.raws, query)
                     );
                 }
                 if (this.$store.state.selectedTag) {
@@ -41,6 +40,15 @@
             snippetCount() {
                 return this.snippets.length;
             }
+        },
+        methods: {
+            checkSnippetRaws(raws, query) {
+                for (const rawValue in raws) {
+                    if (rawValue.toLowerCase().includes(query)) {
+                        return true;
+                    }
+                }
+            },
         },
     }
 </script>

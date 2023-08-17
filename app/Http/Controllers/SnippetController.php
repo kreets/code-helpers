@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\CodeSnippet;
+use App\Models\RawSnippet;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 
 
 class SnippetController extends Controller
@@ -25,7 +27,7 @@ class SnippetController extends Controller
                 "id" => $snippet->id,
                 "name" => $snippet->name,
                 "params" => $snippet->params,
-                "snippet" => $snippet->snippet,
+                "raws" => $snippet->rawSnippets->pluck('instruction', 'raw'),
                 "tags" => $snippet->tags->pluck('name', 'slug')
             ];
         }
@@ -34,9 +36,8 @@ class SnippetController extends Controller
 
     public function saveSnippet(Request $request){
         $snippet = new CodeSnippet();
-        $snippet->name = $request->get('name');;
+        $snippet->name = $request->get('name');
         $snippet->params =  $request->get('params');
-        $snippet->snippet =  $request->get('raw_snippet');
         $snippet->save();
 
         foreach($request->get('tags', []) as $slug){
@@ -49,13 +50,21 @@ class SnippetController extends Controller
             }
             $snippet->tags()->attach($tag);
         }
+
+        foreach($request->get('raw_snippets', []) as $raw){
+            $rawSnippet = new RawSnippet();
+            $rawSnippet->raw = $raw["raw"];
+            if(isset($raw["instruction"]) && $raw["instruction"] != null)$rawSnippet->instruction = $raw["instruction"];
+            $snippet->rawSnippets()->save($rawSnippet);
+        }
+
         return response()->json([
             "id" => $snippet->id,
             "name" => $snippet->name,
             "params" => $snippet->params,
-            "snippet" => $snippet->snippet,
+            "raws" => $snippet->rawSnippets->pluck('instruction', 'raw'),
             "tags" => $snippet->tags->pluck('name', 'slug')
         ]);
-
     }
+
 }

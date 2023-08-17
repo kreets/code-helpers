@@ -77,10 +77,16 @@
                                         </div>
                                     </div>
                                     <div class="raw-snippet-container">
-
-                                        <div class="form-group col-12 mt-2">
-                                            <textarea v-model="snippetdata.raw_snippet" placeholder="Raw Snippet" rows="10" class="form-control snippet-code"></textarea>
+                                        <div v-for="(rawSnippet, index) in snippetdata.raw_snippets" :key="index" :class="['mb-3']">
+                                            <input v-model="rawSnippet.instruction" type="text" placeholder="Instruction" class="form-control form-control-sm">
+                                            <textarea
+                                                  v-model="rawSnippet.raw"
+                                                  placeholder="Raw Snippet"
+                                                  rows="3"
+                                                  class="form-control snippet-code"
+                                            ></textarea>
                                         </div>
+                                        <button type="button" @click="addRawSnippet" class="btn btn-primary btn-sm">Add Raw Snippet</button>
                                     </div>
                                 </div>
                                 <div class="taglist">
@@ -122,6 +128,7 @@
                     name: "New snippet",
                     params:"",
                     raw_snippet:"",
+                    raw_snippets: [{ raw: '', instruction: '' }],
                     tags: [],
                 },
                 showParams: true,
@@ -160,6 +167,9 @@
                     default: "",
                 });
                 this.showParams = true;
+            },
+            addRawSnippet() {
+                this.snippetdata.raw_snippets.push({ raw: '', instruction: '' });
             },
             removeParamField(index) {
                 this.paramsFields.splice(index, 1);
